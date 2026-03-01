@@ -60,7 +60,14 @@ curl "http://localhost:8000/metadata?url=https://example.com"
 ## Running Tests
 
 ```bash
+# Run all tests
 docker-compose --profile test run --rm test
+
+# Run only unit tests (fast, no DB required)
+docker-compose --profile test-unit run --rm test-unit
+
+# Run only integration tests (requires DB)
+docker-compose --profile test-integration run --rm test-integration
 ```
 
 ## Project Structure
