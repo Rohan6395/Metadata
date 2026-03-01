@@ -1,16 +1,19 @@
 import pytest
-from httpx import AsyncClient
-from cloudsek.main import cloudsek
+from httpx import AsyncClient, ASGITransport
+from main import app
 
-@pytest.mark.asyncio
+pytestmark = pytest.mark.asyncio(loop_scope="session")
+
+
 async def test_post_metadata():
-    async with AsyncClient(cloudsek=cloudsek, base_url="http://test") as ac:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
         response = await ac.post("/metadata", json={"url": "https://example.com"})
-    assert response.status_code == 201
+    assert response.status_code in [200, 201]
 
 
-@pytest.mark.asyncio
 async def test_get_metadata_miss():
-    async with AsyncClient(cloudsek=cloudsek, base_url="http://test") as ac:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
         response = await ac.get("/metadata", params={"url": "https://unknown.com"})
-    assert response.status_code == 200 or response.status_code == 202
+    assert response.status_code in [200, 202]

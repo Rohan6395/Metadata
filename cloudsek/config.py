@@ -1,7 +1,11 @@
-import os
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-class Settings:
-    MONGO_URL: str = os.getenv("MONGO_URL", "mongodb://localhost:27017")
-    DB_NAME: str = os.getenv("DB_NAME", "metadata_db")
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env")
+
+    MONGO_URL: str = "mongodb://localhost:27017"
+    DB_NAME: str = "metadata_db"
+
 
 settings = Settings()
