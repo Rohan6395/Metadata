@@ -16,7 +16,7 @@ services:
     ports:
       - "27017:27017"
 
-  # Run all tests
+
   test:
     build: .
     container_name: metadata_test
@@ -30,7 +30,7 @@ services:
     profiles:
       - test
 
-  # Run only unit tests (no DB required)
+  
   test-unit:
     build: .
     container_name: metadata_test_unit
@@ -40,7 +40,7 @@ services:
     profiles:
       - test-unit
 
-  # Run only integration tests (requires DB)
+  
   test-integration:
     build: .
     container_name: metadata_test_integration
